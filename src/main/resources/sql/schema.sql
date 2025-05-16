@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS venue_row_ids;
 DROP TABLE IF EXISTS seats;
 DROP TABLE IF EXISTS rows;
 DROP TABLE IF EXISTS row_seat_ids;
+DROP TABLE IF EXISTS performances;
 
 CREATE TABLE venues
 (
@@ -33,7 +34,15 @@ CREATE TABLE rows
 
 CREATE TABLE row_seat_ids
 (
-  row_id BIGINT NOT NULL,
+  row_id  BIGINT NOT NULL,
   seat_id BIGINT NOT NULL,
   FOREIGN KEY (row_id) REFERENCES rows (id)
 );
+
+CREATE TABLE performances
+(
+  id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title       VARCHAR(255),
+  description VARCHAR(255),
+  venue_id    BIGINT
+)
