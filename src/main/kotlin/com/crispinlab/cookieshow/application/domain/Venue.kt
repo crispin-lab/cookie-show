@@ -1,6 +1,6 @@
 package com.crispinlab.cookieshow.application.domain
 
-data class Venue(
+internal data class Venue(
     val id: Long,
     val name: String,
     val address: String,
