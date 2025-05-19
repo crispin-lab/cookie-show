@@ -1,6 +1,8 @@
 package com.crispinlab.cookieshow.application.service
 
 import com.crispinlab.cookieshow.application.domain.Performance
+import com.crispinlab.cookieshow.application.service.extensions.toDomain
+import com.crispinlab.cookieshow.application.service.extensions.toDto
 import com.crispinlab.cookieshow.application.service.extensions.toEntity
 import com.crispinlab.cookieshow.application.usecase.PerformanceRegisterUseCase
 import com.crispinlab.cookieshow.repository.PerformanceRepository
@@ -19,19 +21,9 @@ internal class PerformanceService(
             throw IllegalArgumentException()
         }
 
-        val performance =
-            Performance(
-                title = request.title,
-                description = request.description,
-                venue = request.venue
-            )
+        val performance: Performance = request.toDomain()
         val id: Long = performanceRepository.save(performance.toEntity()).id
 
-        return PerformanceRegisterUseCase.RegisterResponse(
-            id = id,
-            title = performance.title,
-            description = performance.description,
-            venue = performance.venue
-        )
+        return performance.toDto(id)
     }
 }
