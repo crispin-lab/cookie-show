@@ -41,8 +41,12 @@ CREATE TABLE row_seat_ids
 
 CREATE TABLE performances
 (
-  id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  title       VARCHAR(255),
-  description VARCHAR(255),
-  venue_id    BIGINT
+  id                     BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title                  VARCHAR(255),
+  description            VARCHAR(255),
+  venue_id               BIGINT,
+  start_time             TIMESTAMP(6) WITH TIME ZONE NOT NULL,
+  end_time               TIMESTAMP(6) WITH TIME ZONE NOT NULL,
+  reservation_start_time TIMESTAMP(6) WITH TIME ZONE NOT NULL,
+  reservation_end_time   TIMESTAMP(6) WITH TIME ZONE NOT NULL
 )
