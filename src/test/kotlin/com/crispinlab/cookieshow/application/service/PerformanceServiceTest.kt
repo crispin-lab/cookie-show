@@ -4,6 +4,7 @@ import com.crispinlab.cookieshow.application.usecase.PerformanceRegisterUseCase
 import com.crispinlab.cookieshow.repository.PerformanceRepository
 import com.crispinlab.cookieshow.repository.VenueRepository
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
+import java.time.Instant
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.DisplayName
@@ -43,7 +44,11 @@ class PerformanceServiceTest {
                     PerformanceRegisterUseCase.RegisterRequest(
                         title = "테스트 공연",
                         description = "테스트 용도 공연 입니다.",
-                        venue = 1
+                        venue = 1,
+                        startTime = Instant.now(),
+                        endTime = Instant.now().plusMillis(60),
+                        null,
+                        null
                     )
 
                 // mock
@@ -80,7 +85,11 @@ class PerformanceServiceTest {
                     PerformanceRegisterUseCase.RegisterRequest(
                         title = "테스트 공연",
                         description = "테스트 용도 공연 입니다.",
-                        venue = 1
+                        venue = 1,
+                        startTime = Instant.now(),
+                        endTime = Instant.now().plusMillis(60),
+                        null,
+                        null
                     )
 
                 // mock
