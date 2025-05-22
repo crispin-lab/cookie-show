@@ -42,8 +42,8 @@ internal class PerformanceService(
         val performances: List<Performance> =
             performanceRepository
                 .findAll(
-                    limit = request.page,
-                    offset = request.pageSize
+                    limit = request.pageSize,
+                    offset = (request.page - 1) * request.pageSize
                 ).map { it.toDomain() }
         return PerformanceRetrievalUseCase.RetrieveAllResponse(
             performances = performances.toDto(),
