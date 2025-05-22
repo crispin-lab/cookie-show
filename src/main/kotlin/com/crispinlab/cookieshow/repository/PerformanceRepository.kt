@@ -27,12 +27,12 @@ internal interface PerformanceRepository : JpaRepository<PerformanceEntity, Long
     @Query(
         value =
             """
-            SELECT performances.id, performances.title, performances.description, performances.venue, performances.start_time, performances.end_time,
+            SELECT performances.id, performances.title, performances.description, performances.venue_id, performances.start_time, performances.end_time,
                 performances.reservation_start_time, performances.reservation_end_time
             FROM (
                 SELECT performances.id
                 FROM performances
-                OFFSET :offset LIMIT :limit
+                LIMIT :limit OFFSET :offset
             ) t
             LEFT JOIN performances ON t.id = performances.id
             """,
