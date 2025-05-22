@@ -20,8 +20,8 @@ internal interface PerformanceRegisterUseCase {
         val venue: Long,
         val startTime: Instant,
         val endTime: Instant,
-        val reservationStartTime: Instant?,
-        val reservationEndTime: Instant?
+        val reservationStartTime: Instant,
+        val reservationEndTime: Instant
     )
 
     fun register(request: RegisterRequest): RegisterResponse
