@@ -2,7 +2,7 @@ package com.crispinlab.cookieshow.application.domain
 
 import java.time.Instant
 
-data class Performance(
+internal data class Performance(
     val id: Long? = null,
     val title: String,
     val description: String,

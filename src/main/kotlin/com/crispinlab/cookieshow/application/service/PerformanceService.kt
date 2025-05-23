@@ -1,6 +1,7 @@
 package com.crispinlab.cookieshow.application.service
 
 import com.crispinlab.cookieshow.application.domain.Performance
+import com.crispinlab.cookieshow.application.domain.Venue
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
 import com.crispinlab.cookieshow.application.service.dto.RetrieveAllPerformancesParams
 import com.crispinlab.cookieshow.application.service.extensions.toDomain
@@ -36,14 +37,24 @@ internal class PerformanceService(
                 pageSize = params.pageSize
             )
         val count: Long = performanceRepository.count(pageLimit)
+
         val performances: List<Performance> =
             performanceRepository
                 .findAll(
                     limit = params.pageSize,
                     offset = (params.page - 1) * params.pageSize
                 ).map { it.toDomain() }
+
+        val venueIds: List<Long> = performances.map { it.venue }.distinct()
+        val venues: Map<Long, Venue> =
+            venueRepository
+                .findAllById(venueIds)
+                .map {
+                    it.toDomain()
+                }.associateBy { it.id }
+
         return RetrieveAllPerformancesResponse(
-            performances = performances.toDto(),
+            performances = performances.toDto(venues),
             count = count
         )
     }

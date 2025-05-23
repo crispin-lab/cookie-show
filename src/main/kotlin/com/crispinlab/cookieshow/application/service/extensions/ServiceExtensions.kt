@@ -1,10 +1,13 @@
 package com.crispinlab.cookieshow.application.service.extensions
 
 import com.crispinlab.cookieshow.application.domain.Performance
+import com.crispinlab.cookieshow.application.domain.Venue
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
+import com.crispinlab.cookieshow.controller.dto.VenueResponse
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
+import com.crispinlab.cookieshow.repository.entity.VenueEntity
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
@@ -59,18 +62,40 @@ internal fun PerformanceEntity.toDomain(): Performance =
         reservationEndTime = this.reservationEndTime
     )
 
-internal fun List<Performance>.toDto(): List<RetrievePerformanceResponse> =
-    this.map {
-        RetrievePerformanceResponse(
-            id = it.id!!,
-            title = it.title,
-            description = it.description,
-            venue = it.venue,
-            startTime = it.startTime,
-            endTime = it.endTime,
-            reservationStartTime = it.reservationStartTime,
-            reservationEndTime = it.reservationEndTime
-        )
+internal fun Venue.toDto(): VenueResponse =
+    VenueResponse(
+        id = this.id,
+        name = this.name,
+        address = this.address,
+        capacity = this.capacity
+    )
+
+internal fun Performance.toDto(venue: VenueResponse): RetrievePerformanceResponse =
+    RetrievePerformanceResponse(
+        id = this.id!!,
+        title = this.title,
+        description = this.description,
+        venue = venue,
+        startTime = this.startTime,
+        endTime = this.endTime,
+        reservationStartTime = this.reservationStartTime,
+        reservationEndTime = this.reservationEndTime
+    )
+
+internal fun VenueEntity.toDomain(): Venue =
+    Venue(
+        id = this.id,
+        name = this.name,
+        address = this.address,
+        capacity = this.capacity,
+        rows = this.rows
+    )
+
+internal fun List<Performance>.toDto(venues: Map<Long, Venue>): List<RetrievePerformanceResponse> =
+    this.mapNotNull { performance ->
+        venues[performance.venue]?.let {
+            performance.toDto(it.toDto())
+        }
     }
 
 private fun defaultReservationStartTime(startTime: Instant): Instant =
