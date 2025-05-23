@@ -1,8 +1,8 @@
 package com.crispinlab.cookieshow.controller
 
 import com.crispinlab.cookieshow.application.service.PerformanceService
-import com.crispinlab.cookieshow.application.usecase.PerformanceRegisterUseCase
-import com.crispinlab.cookieshow.controller.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.Instant
 import org.junit.jupiter.api.DisplayName
@@ -51,7 +51,7 @@ class PerformanceControllerTest {
 
                 // mock
                 val registerRequest =
-                    PerformanceRegisterUseCase.RegisterRequest(
+                    CreatePerformanceRequest(
                         title = request.title,
                         description = request.description,
                         venue = request.venue,
@@ -61,7 +61,7 @@ class PerformanceControllerTest {
                         reservationEndTime = request.reservationEndTime
                     )
                 val registerResponse =
-                    PerformanceRegisterUseCase.RegisterResponse(
+                    CreatePerformanceResponse(
                         id = 1L,
                         title = request.title,
                         description = request.description,

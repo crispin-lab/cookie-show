@@ -1,6 +1,7 @@
 package com.crispinlab.cookieshow.application.service
 
-import com.crispinlab.cookieshow.application.usecase.PerformanceRegisterUseCase
+import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.repository.PerformanceRepository
 import com.crispinlab.cookieshow.repository.VenueRepository
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
@@ -41,7 +42,7 @@ class PerformanceServiceTest {
             fun registerPerformanceTest() {
                 // given
                 val request =
-                    PerformanceRegisterUseCase.RegisterRequest(
+                    CreatePerformanceRequest(
                         title = "테스트 공연",
                         description = "테스트 용도 공연 입니다.",
                         venue = 1,
@@ -58,7 +59,7 @@ class PerformanceServiceTest {
                 `when`(venueRepository.existsById(request.venue)).thenReturn(true)
 
                 // when
-                val actual: PerformanceRegisterUseCase.RegisterResponse =
+                val actual: CreatePerformanceResponse =
                     performanceService.register(request)
 
                 // then
@@ -82,7 +83,7 @@ class PerformanceServiceTest {
             fun registerPerformanceFailTest() {
                 // given
                 val request =
-                    PerformanceRegisterUseCase.RegisterRequest(
+                    CreatePerformanceRequest(
                         title = "테스트 공연",
                         description = "테스트 용도 공연 입니다.",
                         venue = 1,
