@@ -6,7 +6,7 @@ data class RetrievePerformanceResponse(
     val id: Long,
     val title: String,
     val description: String,
-    val venue: Long,
+    val venue: VenueResponse,
     val startTime: Instant,
     val endTime: Instant,
     val reservationStartTime: Instant,
