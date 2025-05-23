@@ -1,14 +1,15 @@
 package com.crispinlab.cookieshow.application.service.extensions
 
 import com.crispinlab.cookieshow.application.domain.Performance
-import com.crispinlab.cookieshow.application.usecase.PerformanceRegisterUseCase
-import com.crispinlab.cookieshow.application.usecase.PerformanceRetrievalUseCase
+import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
+import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 
-internal fun PerformanceRegisterUseCase.RegisterRequest.toDomain() =
+internal fun CreatePerformanceRequest.toDomain() =
     Performance(
         title = this.title,
         description = this.description,
@@ -34,8 +35,8 @@ internal fun Performance.toEntity(): PerformanceEntity =
         reservationEndTime = this.reservationEndTime
     )
 
-internal fun Performance.toDto(id: Long): PerformanceRegisterUseCase.RegisterResponse =
-    PerformanceRegisterUseCase.RegisterResponse(
+internal fun Performance.toDto(id: Long): CreatePerformanceResponse =
+    CreatePerformanceResponse(
         id = id,
         title = this.title,
         description = this.description,
@@ -58,9 +59,9 @@ internal fun PerformanceEntity.toDomain(): Performance =
         reservationEndTime = this.reservationEndTime
     )
 
-internal fun List<Performance>.toDto(): List<PerformanceRetrievalUseCase.PerformanceResponse> =
+internal fun List<Performance>.toDto(): List<RetrievePerformanceResponse> =
     this.map {
-        PerformanceRetrievalUseCase.PerformanceResponse(
+        RetrievePerformanceResponse(
             id = it.id!!,
             title = it.title,
             description = it.description,
