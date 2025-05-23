@@ -1,4 +1,4 @@
-package com.crispinlab.cookieshow.controller.dto
+package com.crispinlab.cookieshow.application.service.dto
 
 internal data class RetrieveAllPerformancesParams(
     val page: Long,
