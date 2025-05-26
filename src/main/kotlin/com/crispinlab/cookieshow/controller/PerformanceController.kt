@@ -2,9 +2,9 @@ package com.crispinlab.cookieshow.controller
 
 import com.crispinlab.cookieshow.application.service.PerformanceService
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.application.service.dto.RetrieveAllPerformancesParams
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.PerformanceResponse
-import com.crispinlab.cookieshow.application.service.dto.RetrieveAllPerformancesParams
 import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
 import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,7 +23,7 @@ internal class PerformanceController(
     fun createPerformance(
         @RequestBody request: CreatePerformanceRequest
     ): PerformanceResponse<CreatePerformanceResponse> {
-        val response =
+        val response: CreatePerformanceResponse =
             performanceService.register(request)
         return PerformanceResponse.success(
             result =
@@ -44,7 +44,7 @@ internal class PerformanceController(
     fun retrieveAllPerformances(
         @ModelAttribute params: RetrieveAllPerformancesParams
     ): PerformanceResponse<RetrieveAllPerformancesResponse> {
-        val response =
+        val response: RetrieveAllPerformancesResponse =
             performanceService.retrieveAll(params)
         return PerformanceResponse.success(
             result =
