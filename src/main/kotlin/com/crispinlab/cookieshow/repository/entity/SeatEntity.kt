@@ -5,12 +5,15 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "venues")
-internal class VenueEntity(
+@Table(name = "seats")
+internal class SeatEntity(
+    @Column(
+        name = "venue_id",
+        nullable = false
+    )
+    val venue: Long,
     @Column(nullable = false)
-    val name: String,
+    val row: String,
     @Column(nullable = false)
-    val address: String,
-    @Column(nullable = false)
-    val capacity: Int
+    val number: Int
 ) : BaseEntity()
