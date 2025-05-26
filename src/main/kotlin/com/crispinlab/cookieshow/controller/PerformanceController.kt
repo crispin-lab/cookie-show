@@ -6,8 +6,10 @@ import com.crispinlab.cookieshow.application.service.dto.RetrieveAllPerformances
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.PerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
+import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -63,6 +65,16 @@ internal class PerformanceController(
                         },
                     count = response.count
                 )
+        )
+    }
+
+    @GetMapping("/performances/{id}")
+    fun retrievePerformance(
+        @PathVariable id: Long
+    ): PerformanceResponse<RetrievePerformanceResponse> {
+        val response: RetrievePerformanceResponse = performanceService.retrieve(id)
+        return PerformanceResponse.success(
+            result = response
         )
     }
 }
