@@ -29,3 +29,10 @@ CREATE TABLE performances
   reservation_start_time TIMESTAMP(6) WITH TIME ZONE NOT NULL,
   reservation_end_time   TIMESTAMP(6) WITH TIME ZONE NOT NULL
 );
+
+CREATE TABLE performance_seats
+(
+  id               BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  performance_id   BIGINT NOT NULL,
+  seats_id BIGINT NOT NULL
+);
