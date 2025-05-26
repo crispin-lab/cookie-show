@@ -12,8 +12,13 @@ internal class SeatEntity(
         nullable = false
     )
     val venue: Long,
-    @Column(nullable = false)
+    @Column(
+        name = "\"row\"",
+        nullable = false
+    )
     val row: String,
     @Column(nullable = false)
-    val number: Int
+    val number: Int,
+    @Column(nullable = false)
+    val isAvailable: Boolean = true
 ) : BaseEntity()
