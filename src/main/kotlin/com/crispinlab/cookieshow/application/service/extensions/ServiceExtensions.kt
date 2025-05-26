@@ -4,7 +4,7 @@ import com.crispinlab.cookieshow.application.domain.Performance
 import com.crispinlab.cookieshow.application.domain.Venue
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
-import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
+import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
 import com.crispinlab.cookieshow.controller.dto.VenueResponse
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
 import com.crispinlab.cookieshow.repository.entity.VenueEntity
@@ -70,8 +70,10 @@ internal fun Venue.toDto(): VenueResponse =
         capacity = this.capacity
     )
 
-internal fun Performance.toDto(venue: VenueResponse): RetrievePerformanceResponse =
-    RetrievePerformanceResponse(
+internal fun Performance.toDto(
+    venue: VenueResponse
+): RetrieveAllPerformancesResponse.RetrievePerformanceResponse =
+    RetrieveAllPerformancesResponse.RetrievePerformanceResponse(
         id = this.id!!,
         title = this.title,
         description = this.description,
@@ -87,11 +89,12 @@ internal fun VenueEntity.toDomain(): Venue =
         id = this.id,
         name = this.name,
         address = this.address,
-        capacity = this.capacity,
-        rows = this.rows
+        capacity = this.capacity
     )
 
-internal fun List<Performance>.toDto(venues: Map<Long, Venue>): List<RetrievePerformanceResponse> =
+internal fun List<Performance>.toDto(
+    venues: Map<Long, Venue>
+): List<RetrieveAllPerformancesResponse.RetrievePerformanceResponse> =
     this.mapNotNull { performance ->
         venues[performance.venue]?.let {
             performance.toDto(it.toDto())

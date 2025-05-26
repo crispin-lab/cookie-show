@@ -6,7 +6,6 @@ import com.crispinlab.cookieshow.application.service.dto.RetrieveAllPerformances
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.PerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
-import com.crispinlab.cookieshow.controller.dto.RetrievePerformanceResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
@@ -51,7 +50,7 @@ internal class PerformanceController(
                 RetrieveAllPerformancesResponse(
                     performances =
                         response.performances.map {
-                            RetrievePerformanceResponse(
+                            RetrieveAllPerformancesResponse.RetrievePerformanceResponse(
                                 id = it.id,
                                 title = it.title,
                                 description = it.description,

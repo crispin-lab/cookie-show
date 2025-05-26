@@ -12,6 +12,7 @@ import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
 import com.crispinlab.cookieshow.repository.PerformanceRepository
 import com.crispinlab.cookieshow.repository.VenueRepository
 import com.crispinlab.cookieshow.util.PageLimitCalculator
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -57,5 +58,13 @@ internal class PerformanceService(
             performances = performances.toDto(venues),
             count = count
         )
+    }
+
+    fun retrieve(id: Long) {
+        performanceRepository.findByIdOrNull(id)?.let {
+            require(venueRepository.existsById(it.id)) {
+                throw IllegalArgumentException()
+            }
+        } ?: throw IllegalArgumentException()
     }
 }
