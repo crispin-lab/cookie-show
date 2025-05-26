@@ -1,0 +1,20 @@
+### @name createPerformance
+POST http://localhost:8080/api/performance
+Content-Type: application/json
+
+{
+  "title": "2025 여름 클래식 콘서트",
+  "description": "베토벤과 모차르트의 명곡을 선보이는 여름 클래식 음악회",
+  "venue": 1,
+  "startTime": "2025-07-15T19:00:00Z",
+  "endTime": "2025-07-15T21:30:00Z",
+  "reservationStartTime": "2025-06-01T09:00:00Z",
+  "reservationEndTime": "2025-07-14T23:59:59Z"
+}
+
+### @name retrieveAllPerformances
+GET http://localhost:8080/api/performances?page=1&pageSize=100
+
+### @name retrievePerformance
+@id = 1
+GET http://localhost:8080/api/performances/{{id}}
