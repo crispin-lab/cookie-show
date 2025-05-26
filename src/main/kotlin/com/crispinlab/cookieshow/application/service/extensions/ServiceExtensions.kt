@@ -1,12 +1,15 @@
 package com.crispinlab.cookieshow.application.service.extensions
 
 import com.crispinlab.cookieshow.application.domain.Performance
+import com.crispinlab.cookieshow.application.domain.Seat
 import com.crispinlab.cookieshow.application.domain.Venue
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
+import com.crispinlab.cookieshow.controller.dto.SeatResponse
 import com.crispinlab.cookieshow.controller.dto.VenueResponse
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
+import com.crispinlab.cookieshow.repository.entity.SeatEntity
 import com.crispinlab.cookieshow.repository.entity.VenueEntity
 import java.time.Duration
 import java.time.Instant
@@ -90,6 +93,23 @@ internal fun VenueEntity.toDomain(): Venue =
         name = this.name,
         address = this.address,
         capacity = this.capacity
+    )
+
+internal fun SeatEntity.toDomain(): Seat =
+    Seat(
+        id = this.id,
+        venue = this.venue,
+        row = this.row,
+        number = this.number,
+        isAvailable = this.isAvailable
+    )
+
+internal fun Seat.toDto(): SeatResponse =
+    SeatResponse(
+        id = this.id,
+        row = this.row,
+        number = this.number,
+        isAvailable = this.isAvailable
     )
 
 internal fun List<Performance>.toDto(

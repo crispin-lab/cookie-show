@@ -12,10 +12,11 @@ CREATE TABLE venues
 
 CREATE TABLE seats
 (
-  id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  venue_id BIGINT NOT NULL,
-  "row"    VARCHAR(255),
-  number   INT
+  id           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  venue_id     BIGINT NOT NULL,
+  "row"        VARCHAR(255),
+  number       INT,
+  is_available BOOLEAN default true
 );
 
 CREATE TABLE performances

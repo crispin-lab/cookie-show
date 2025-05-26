@@ -2,7 +2,7 @@ package com.crispinlab.cookieshow.controller.dto
 
 import java.time.Instant
 
-data class RetrievePerformanceResponse(
+internal data class RetrievePerformanceResponse(
     val id: Long,
     val title: String,
     val description: String,
@@ -10,5 +10,7 @@ data class RetrievePerformanceResponse(
     val startTime: Instant,
     val endTime: Instant,
     val reservationStartTime: Instant,
-    val reservationEndTime: Instant
+    val reservationEndTime: Instant,
+    val seats: List<SeatResponse>,
+    val remainingSeatCount: Int
 )
