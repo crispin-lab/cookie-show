@@ -1,15 +1,20 @@
 package com.crispinlab.cookieshow.application.service.extensions
 
 import com.crispinlab.cookieshow.application.domain.Performance
+import com.crispinlab.cookieshow.application.domain.Reservation
 import com.crispinlab.cookieshow.application.domain.Seat
+import com.crispinlab.cookieshow.application.domain.User
 import com.crispinlab.cookieshow.application.domain.Venue
 import com.crispinlab.cookieshow.application.service.dto.CreatePerformanceRequest
+import com.crispinlab.cookieshow.application.service.dto.CreateReservationRequest
 import com.crispinlab.cookieshow.controller.dto.CreatePerformanceResponse
 import com.crispinlab.cookieshow.controller.dto.RetrieveAllPerformancesResponse
 import com.crispinlab.cookieshow.controller.dto.SeatResponse
 import com.crispinlab.cookieshow.controller.dto.VenueResponse
 import com.crispinlab.cookieshow.repository.entity.PerformanceEntity
+import com.crispinlab.cookieshow.repository.entity.ReservationEntity
 import com.crispinlab.cookieshow.repository.entity.SeatEntity
+import com.crispinlab.cookieshow.repository.entity.UserEntity
 import com.crispinlab.cookieshow.repository.entity.VenueEntity
 import java.time.Duration
 import java.time.Instant
@@ -120,6 +125,48 @@ internal fun List<Performance>.toDto(
             performance.toDto(it.toDto())
         }
     }
+
+internal fun CreateReservationRequest.ReservationUser.toDomain(): User =
+    User(
+        name = this.name,
+        phone = this.phone,
+        email = this.email
+    )
+
+internal fun User.toEntity(): UserEntity =
+    UserEntity(
+        name = this.name,
+        phone = this.phone,
+        email = this.email
+    )
+
+internal fun UserEntity.toDomain(): User =
+    User(
+        id = this.id,
+        name = this.name,
+        phone = this.phone,
+        email = this.email
+    )
+
+internal fun CreateReservationRequest.toDomain(
+    user: User,
+    performance: Performance,
+    seat: Seat
+) = Reservation(
+    user = user,
+    performance = performance,
+    seat = seat,
+    paymentEndTime = this.paymentEndTime
+)
+
+internal fun Reservation.toEntity(): ReservationEntity =
+    ReservationEntity(
+        user = this.user.id,
+        performance = this.performance.id!!,
+        seat = this.seat.id,
+        reservationTime = this.reservationTime,
+        paymentEndTime = this.paymentEndTimeEffective
+    )
 
 private fun defaultReservationStartTime(startTime: Instant): Instant =
     startTime
