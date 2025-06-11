@@ -11,4 +11,11 @@ internal data class Performance(
     val endTime: Instant,
     val reservationStartTime: Instant,
     val reservationEndTime: Instant
-)
+) {
+    fun isTimeAvailable(time: Instant): Boolean =
+        when {
+            time.isBefore(reservationStartTime) -> false
+            time.isAfter(reservationEndTime) -> false
+            else -> true
+        }
+}

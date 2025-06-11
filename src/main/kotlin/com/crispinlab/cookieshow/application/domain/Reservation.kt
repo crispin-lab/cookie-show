@@ -8,8 +8,8 @@ internal data class Reservation(
     val user: User,
     val seat: Seat,
     val performance: Performance,
-    val reservationTime: Instant = Instant.now(),
-    private val paymentEndTime: Instant?
+    val reservationTime: Instant,
+    private val paymentEndTime: Instant? = null
 ) {
     val paymentEndTimeEffective: Instant
         get() = paymentEndTime ?: reservationTime.plus(Duration.ofHours(12))

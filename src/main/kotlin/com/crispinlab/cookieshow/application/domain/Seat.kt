@@ -6,4 +6,6 @@ internal data class Seat(
     val row: String,
     val number: Int,
     val isAvailable: Boolean = true
-)
+) {
+    fun isSeatIsAvailable() = isAvailable
+}

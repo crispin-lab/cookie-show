@@ -156,7 +156,7 @@ internal fun CreateReservationRequest.toDomain(
     user = user,
     performance = performance,
     seat = seat,
-    paymentEndTime = this.paymentEndTime
+    reservationTime = this.reservationRequestTime,
 )
 
 internal fun Reservation.toEntity(): ReservationEntity =

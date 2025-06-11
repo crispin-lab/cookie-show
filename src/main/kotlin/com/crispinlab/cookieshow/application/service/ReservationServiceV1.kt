@@ -35,6 +35,10 @@ internal class ReservationServiceV1(
             performanceRepository.findByIdOrNull(request.performance)?.toDomain()
                 ?: throw IllegalArgumentException()
 
+        require(performance.isTimeAvailable(request.reservationRequestTime)) {
+            throw IllegalArgumentException()
+        }
+
         val user: User = request.user.toDomain()
         userRepository.save(user.toEntity())
 
@@ -43,7 +47,7 @@ internal class ReservationServiceV1(
                 user = user,
                 seat = seat,
                 performance = performance,
-                paymentEndTime = request.paymentEndTime
+                reservationTime = request.reservationRequestTime
             )
 
         reservationRepository.save(reservation.toEntity())

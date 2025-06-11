@@ -6,7 +6,7 @@ internal data class CreateReservationRequest(
     val performance: Long,
     val seat: Long,
     val user: ReservationUser,
-    val paymentEndTime: Instant? = null
+    val reservationRequestTime: Instant
 ) {
     data class ReservationUser(
         val name: String,
