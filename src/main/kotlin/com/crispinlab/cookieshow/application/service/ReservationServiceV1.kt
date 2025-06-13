@@ -14,6 +14,7 @@ import com.crispinlab.cookieshow.repository.SeatRepository
 import com.crispinlab.cookieshow.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 internal class ReservationServiceV1(
@@ -22,14 +23,17 @@ internal class ReservationServiceV1(
     private val seatRepository: SeatRepository,
     private val reservationRepository: ReservationRepository
 ) {
+    @Transactional
     fun reserve(request: CreateReservationRequest): CreateReservationResponse {
         val seat: Seat =
             seatRepository.findByIdOrNull(request.seat)?.toDomain()
                 ?: throw IllegalArgumentException()
 
-        require(seat.isAvailable) {
+        require(seat.isSeatAvailable()) {
             throw IllegalArgumentException()
         }
+
+        seatRepository.updateAvailability(seatId = seat.id, isAvailable = false)
 
         val performance: Performance =
             performanceRepository.findByIdOrNull(request.performance)?.toDomain()

@@ -7,5 +7,5 @@ internal data class Seat(
     val number: Int,
     val isAvailable: Boolean = true
 ) {
-    fun isSeatIsAvailable() = isAvailable
+    fun isSeatAvailable() = isAvailable
 }
