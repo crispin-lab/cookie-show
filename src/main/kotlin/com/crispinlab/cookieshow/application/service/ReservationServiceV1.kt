@@ -12,6 +12,8 @@ import com.crispinlab.cookieshow.repository.PerformanceRepository
 import com.crispinlab.cookieshow.repository.ReservationRepository
 import com.crispinlab.cookieshow.repository.SeatRepository
 import com.crispinlab.cookieshow.repository.UserRepository
+import com.crispinlab.cookieshow.util.Logging
+import org.slf4j.Logger
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,41 +25,45 @@ internal class ReservationServiceV1(
     private val seatRepository: SeatRepository,
     private val reservationRepository: ReservationRepository
 ) {
+    private val logger: Logger = Logging.getLogger(ReservationServiceV1::class.java)
+
     @Transactional
-    fun reserve(request: CreateReservationRequest): CreateReservationResponse {
-        val seat: Seat =
-            seatRepository.findByIdOrNull(request.seat)?.toDomain()
-                ?: throw IllegalArgumentException()
+    fun reserve(request: CreateReservationRequest): CreateReservationResponse =
+        Logging.logFor(logger) {
+            val seat: Seat =
+                seatRepository.findByIdOrNull(request.seat)?.toDomain()
+                    ?: throw IllegalArgumentException()
 
-        require(seat.isSeatAvailable()) {
-            throw IllegalArgumentException()
-        }
+            require(seat.isSeatAvailable()) {
+                throw IllegalArgumentException()
+            }
 
-        seatRepository.updateAvailability(seatId = seat.id, isAvailable = false)
+            seatRepository.updateAvailability(seatId = seat.id, isAvailable = false)
 
-        val performance: Performance =
-            performanceRepository.findByIdOrNull(request.performance)?.toDomain()
-                ?: throw IllegalArgumentException()
+            val performance: Performance =
+                performanceRepository.findByIdOrNull(request.performance)?.toDomain()
+                    ?: throw IllegalArgumentException()
 
-        require(performance.isTimeAvailable(request.reservationRequestTime)) {
-            throw IllegalArgumentException()
-        }
+            require(performance.isTimeAvailable(request.reservationRequestTime)) {
+                throw IllegalArgumentException()
+            }
 
-        val user: User = request.user.toDomain()
-        userRepository.save(user.toEntity())
+            val user: User = request.user.toDomain()
+            userRepository.save(user.toEntity())
 
-        val reservation =
-            Reservation(
-                user = user,
-                seat = seat,
-                performance = performance,
-                reservationTime = request.reservationRequestTime
+            val reservation =
+                Reservation(
+                    user = user,
+                    seat = seat,
+                    performance = performance,
+                    reservationTime = request.reservationRequestTime
+                )
+
+            reservationRepository.save(reservation.toEntity())
+
+            CreateReservationResponse(
+                reservationTime = reservation.reservationTime,
+                paymentEndTime = reservation.paymentEndTimeEffective
             )
-
-        reservationRepository.save(reservation.toEntity())
-        return CreateReservationResponse(
-            reservationTime = reservation.reservationTime,
-            paymentEndTime = reservation.paymentEndTimeEffective
-        )
-    }
+        }
 }
